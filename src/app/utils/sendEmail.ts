@@ -26,7 +26,7 @@ const sendEmail = async ({ to, subject, html }: EmailParams): Promise<void> => {
 
     console.log('✅ Email sent:', info.messageId);
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error(' Error sending email:', error);
     throw error;
   }
 };

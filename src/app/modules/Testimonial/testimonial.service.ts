@@ -3,7 +3,7 @@ import { Testimonial } from "./testimonial.model";
 
 
 const createTestimonial = async (payload: ITestimonial) => {
-  // New testimonials are 'pending' by default as per model
+
   const result = await Testimonial.create(payload);
   return result;
 };

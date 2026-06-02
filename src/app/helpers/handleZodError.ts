@@ -3,15 +3,16 @@ import {
   TGenericErrorResponse,
 } from "../interfaces/error.type";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const handleZodError = (err: any): TGenericErrorResponse => {
+  console.error("Zod validation error:", err); // Log the entire error for debugging
   const errorSources: TErrorSources[] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   err.issues.forEach((issue: any) => {
     errorSources.push({
-      // path: issue.path[0] + issue.path.slice(1).join(),
-      // path: issue.path.length > 1 && issue.path.reverse().join("inside"),
+
+
       path: issue.path[issue.path.length - 1],
       message: issue.message,
     });

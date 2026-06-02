@@ -1,12 +1,11 @@
-import {Server} from "http"
+import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
 import { envVars } from "./app/config/env";
 import bcrypt from "bcryptjs";
 import { User } from "./app/modules/User/user.model";
 import seedAdmin from "./app/utils/seedAdmin";
-
-
+import { seedDemoData } from "./app/utils/seedDemoData";
 
 let server: Server;
 
@@ -28,9 +27,10 @@ const startServer = async () => {
 
 startServer()
 seedAdmin()
+seedDemoData()
 
 
-//unhandled rejection error
+
 
 process.on("unhandledRejection", (err) => {
     console.log("Unhandled Rejection detected...Server shutting down... ", err)
@@ -42,7 +42,7 @@ process.on("unhandledRejection", (err) => {
     process.exit(1)
 })
 
-// uncaught exception
+
 process.on("uncaughtException", (err) => {
   console.log("Uncaught Exception detected... Server shutting down...", err);
   if (server) {
@@ -54,7 +54,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-// Signal termination
+
 process.on("SIGTERM", () => {
   console.log("SIGTERM signal recieved... Server shutting down...");
   if (server) {
@@ -66,7 +66,7 @@ process.on("SIGTERM", () => {
   process.exit(1);
 });
 
-// sigint for manually check for that so this is why we use it here and sigterm for cloud managers
+
 process.on("SIGINT", () => {
   console.log("SIGINT signal recieved... Server shutting down...");
   if (server) {
@@ -79,12 +79,11 @@ process.on("SIGINT", () => {
 });
 
 
-// const seedSuperAdmin = async () => {
-//   const count = await User.countDocuments();
-//   if (count === 0) {
-//     const salt = await bcrypt.genSalt(10);
-//     const passwordHash = await bcrypt.hash('admin123', salt);
-//     await User.create({ email: 'admin@skillslab.com', passwordHash });
-//     console.log('Default super admin created successfully.');
-//   }
-// };
+
+
+
+
+
+
+
+

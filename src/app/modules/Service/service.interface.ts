@@ -1,5 +1,7 @@
 export interface IService {
- title:string;
- category:"student"|"worker"
- description:string;
+  title: string;
+  category: string;
+  description: string;
+  icon?: string;
+  isDeleted?: boolean;
 }

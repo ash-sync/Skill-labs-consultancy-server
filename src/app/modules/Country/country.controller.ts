@@ -51,9 +51,10 @@ const getSingleCountry = catchAsync(async (req, res) => {
 })
 
 const updateCountry = catchAsync(async (req, res) => {
+    const data = req.body.body || req.body;
     const payload ={
-        ...req.body,
-        image: req.file?.path
+        ...data,
+        ...(req.file && { image: req.file.path })
     } 
     const country = await CountryService.updateCountry(req.params.id as string, payload);
     sendResponse(res, {

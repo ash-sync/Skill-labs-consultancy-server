@@ -1,4 +1,4 @@
-// destination.controller.ts
+
 
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
@@ -7,7 +7,7 @@ import { DestinationService } from "./destination.service";
 const createDestination = catchAsync(async (req, res) => {
   const body = { ...req.body };
 
-  // parse topInstitutes if form-data
+
   if (
     body.topInstitutes &&
     typeof body.topInstitutes === "string"
@@ -62,7 +62,7 @@ const getSingleDestination = catchAsync(async (req, res) => {
 });
 
 const updateDestination = catchAsync(async (req, res) => {
-  const body = { ...req.body };
+  const body = req.body.body ? { ...req.body.body } : { ...req.body };
 
   if (
     body.topInstitutes &&

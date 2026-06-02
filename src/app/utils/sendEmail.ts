@@ -8,7 +8,7 @@ interface EmailParams {
 }
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // 
+    service: 'gmail',
   auth: {
     user: envVars.SMTP_USER, 
     pass: envVars.SMTP_PASS, 
@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async ({ to, subject, html }: EmailParams): Promise<void> => {
   try {
     const info = await transporter.sendMail({
-      from: `"Skills-Lab Consultancy" <${envVars.SMTP_USER}>`, // ✅ must match SMTP user
+      from: `"Skills-Lab Consultancy" <${envVars.SMTP_USER}>`,
       to,
       subject,
       html,
@@ -27,7 +27,7 @@ const sendEmail = async ({ to, subject, html }: EmailParams): Promise<void> => {
     console.log('✅ Email sent:', info.messageId);
   } catch (error) {
     console.error('❌ Error sending email:', error);
-    throw error; // ✅ don't silently fail
+    throw error;
   }
 };
 

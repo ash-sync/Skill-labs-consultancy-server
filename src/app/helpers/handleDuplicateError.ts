@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const handleDuplicateError = (error: any) => {
   const statusCode = 500;
   const match = error.message.match(/"([^"]*)"/);

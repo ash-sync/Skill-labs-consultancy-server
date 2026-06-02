@@ -19,7 +19,7 @@ const registerUser = async (payload: Partial<IUser>) => {
     throw new AppError(StatusCodes.BAD_REQUEST, "User already exist");
   }
 
-  // 🔐 HASH PASSWORD HERE
+
   const hashedPassword = await bcrypt.hash(
     password as string,
     envVars.BCRYPT_SALT_ROUND,

@@ -1,4 +1,4 @@
-// destination.service.ts
+
 
 import { IDestination } from "./destination.interface";
 import { Destination } from "./destination.model";

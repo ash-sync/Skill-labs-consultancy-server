@@ -14,12 +14,12 @@ export const checkAuth =
     try {
       const accessToken = req.headers.authorization;
 
-      // ❌ No token
+
       if (!accessToken) {
         throw new AppError(httpStatus.FORBIDDEN, "No Token Received");
       }
 
-      // ✅ Handle Bearer token
+
       const token = accessToken.startsWith("Bearer ")
         ? accessToken.split(" ")[1]
         : accessToken;
@@ -28,18 +28,18 @@ export const checkAuth =
         throw new AppError(httpStatus.UNAUTHORIZED, "Invalid token");
       }
 
-      // ✅ Verify token
+
       const verifiedToken = verifyToken(
         token,
         envVars.JWT_SECRET
       ) as JwtPayload & { email: string; role?: string };
 
-      // ❌ Missing email in token
+
       if (!verifiedToken?.email) {
         throw new AppError(httpStatus.UNAUTHORIZED, "Invalid token payload");
       }
 
-      // ✅ Check user existence
+
       const isUserExist = await User.findOne({
         email: verifiedToken.email,
       });

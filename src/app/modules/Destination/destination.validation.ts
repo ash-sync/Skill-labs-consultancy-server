@@ -61,41 +61,42 @@ export const createDestinationValidationRules = z.object({
 });
 
 export const updateDestinationValidationRules = z.object({
-  body: z.object({
-    country: z
-      .string({
-        error: "Country must be a string",
-      })
-      .optional(),
+  country: z
+    .string({
+      error: "Country must be a string",
+    })
+    .optional(),
 
-    description: z
-      .string({
-        error: "Description must be a string",
-      })
-      .optional(),
+  description: z
+    .string({
+      error: "Description must be a string",
+    })
+    .optional(),
 
-    imageUrl: z
-      .string({
-        error: "Image URL must be a string",
-      })
-      .optional(),
+  imageUrl: z
+    .string({
+      error: "Image URL must be a string",
+    })
+    .optional(),
 
-    processingTime: z
-      .string({
-        error: "Processing time must be a string",
-      })
-      .optional(),
+  processingTime: z
+    .string({
+      error: "Processing time must be a string",
+    })
+    .optional(),
 
-    livingCost: z
-      .string({
-        error: "Living cost must be a string",
-      })
-      .optional(),
+  livingCost: z
+    .string({
+      error: "Living cost must be a string",
+    })
+    .optional(),
 
-    topInstitutes: z
-      .array(topInstituteSchema)
-      .optional(),
-  }),
+  topInstitutes: z.preprocess(val => {
+    if (typeof val === "string") {
+      try { return JSON.parse(val); } catch { return []; }
+    }
+    return val;
+  }, z.array(topInstituteSchema)).optional(),
 });
 
 export const DestinationValidationRules = {

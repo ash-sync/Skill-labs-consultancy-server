@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 
@@ -9,11 +9,11 @@ import { handleZodError } from '../helpers/handleZodError';
 import { handleValidationError } from '../helpers/handleValidationError';
 import { AppError } from '../errorHelpers/AppError';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const globalErrorHandler = (err: any, req: Request, res: Response,next:NextFunction) => {
-  // if (envConfig.NODE_ENV === 'development') {
-  //   console.log('🔥 Global Error Caught:', err);
-  // }
+
+
+
 
   let statusCode = 500;
   let message = 'Something went wrong';

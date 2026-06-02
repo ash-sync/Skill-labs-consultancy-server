@@ -11,7 +11,7 @@ const route =Router();
 route.post("/",checkAuth(Role.ADMIN), multerUpload.single("image"), validateRequest(CountryValidationRules.createCountryValidationRules),CountryController.createCountry);
 route.get("/", CountryController.getAllCountries);
 route.get("/:id", CountryController.getSingleCountry);
-route.patch("/:id",checkAuth(Role.ADMIN), validateRequest(CountryValidationRules.updateCountryValidationRules),CountryController.updateCountry);
+route.patch("/:id",checkAuth(Role.ADMIN), multerUpload.single("image"), validateRequest(CountryValidationRules.updateCountryValidationRules),CountryController.updateCountry);
 route.delete("/:id", checkAuth(Role.ADMIN), CountryController.deleteCountry);
 
 export const CountryRoutes = route;

@@ -31,6 +31,14 @@ export const createCountryValidationRules = z.object({
       .min(3, { message: "Deadline is required" })
       .max(50, { message: "Deadline is too long" })
       .optional(),
+      
+    subtitle: z.string().optional(),
+    region: z.string().optional(),
+    description: z.string().optional(),
+    features: z.array(z.object({
+      title: z.string(),
+      subtitle: z.string()
+    })).optional()
   });
 
 export const updateCountryValidationRules = z.object({
@@ -59,6 +67,14 @@ export const updateCountryValidationRules = z.object({
     deadline: z
       .string({ error: "Deadline must be a string" })
       .optional(),
+      
+    subtitle: z.string().optional(),
+    region: z.string().optional(),
+    description: z.string().optional(),
+    features: z.array(z.object({
+      title: z.string(),
+      subtitle: z.string()
+    })).optional()
   }),
 });
 

@@ -19,8 +19,20 @@ const getServiceById = async (id: string) => {
   return service;
 };
 
+const updateService = async (id: string, payload: Partial<IService>) => {
+  const service = await Service.findByIdAndUpdate(id, payload, { new: true });
+  return service;
+};
+
+const deleteService = async (id: string) => {
+  const service = await Service.findByIdAndDelete(id);
+  return service;
+};
+
 export const ServiceService = {
   createService,
   getAllServices,
   getServiceById,
+  updateService,
+  deleteService,
 };

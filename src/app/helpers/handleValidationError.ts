@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import mongoose from 'mongoose';
 import { TErrorSources } from '../interfaces/error.type';
 

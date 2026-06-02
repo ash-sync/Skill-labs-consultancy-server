@@ -3,17 +3,17 @@ import { IBooking } from "./booking.interface";
 
 const BookingSchema = new Schema<IBooking>(
   {
-    fullName: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    name: { type: String, required: true },
     email: { type: String, required: true },
-    serviceType: { type: String, required: true },
-    date: { type: String, required: true },
+    service: { type: String, required: true },
     time: { type: String, required: true },
+    message: { type: String },
     status: {
       type: String,
-      enum: ['pending', 'approved', 'rejected', 'completed'],
+      enum: ['pending', 'approved', 'rejected'],
       default: 'pending',
     },
-    consultantId: { type: Schema.Types.ObjectId, ref: 'Consultation' },
   },
   {
     timestamps: true,

@@ -31,4 +31,20 @@ const sendEmail = async ({ to, subject, html }: EmailParams): Promise<void> => {
   }
 };
 
+export const sendEmail2 = async ({ to, subject, html }: EmailParams): Promise<void> => {
+  try {
+    const info = await transporter.sendMail({
+      from: `"Skills-Lab Consultancy" <${envVars.SMTP_USER}>`,
+      to,
+      subject,
+      html,
+    });
+
+    console.log(' Email sent:', info.messageId);
+  } catch (error) {
+    console.error(' Error sending email:', error);
+    throw error;
+  }
+};
+
 export default sendEmail;

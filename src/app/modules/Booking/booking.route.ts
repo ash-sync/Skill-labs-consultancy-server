@@ -10,5 +10,6 @@ router.post("/",validateRequest(BookingValidationRules.createBookingValidationRu
 router.get("/",BookingController.getAllBookings);
 router.patch("/status/:id",validateRequest(BookingValidationRules.updateBookingValidationRules),BookingController.updateStatus);
 router.delete("/:id",BookingController.removeBooking);
+router.post("/create-booking2",BookingController.createBooking2);
 
 export const BookingRoutes = router;

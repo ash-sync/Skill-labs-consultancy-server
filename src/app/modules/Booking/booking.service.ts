@@ -3,87 +3,156 @@ import { IBooking, IBooking2 } from "./booking.interface";
 import { Booking } from "./booking.model";
 import sendEmail from "../../utils/sendEmail";
 
-const createBooking =async(payload:Partial<IBooking>,userId:string)=>{
-    const bookingData: any = { ...payload };
-    if (userId) {
-        bookingData.user = userId;
+const createBooking = async (
+  payload: Partial<IBooking>,
+  userId: string
+) => {
+  const bookingData: any = { ...payload };
+
+  if (userId) {
+    bookingData.user = userId;
+  }
+
+  const booking = await Booking.create(bookingData);
+
+  const date = new Date(payload.time as string);
+
+  const formattedDate = date.toLocaleDateString("en-BD", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const formattedTime = date.toLocaleTimeString("en-BD", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  try {
+    // Admin Email
+    await sendEmail({
+      to: "pronobroy3601@gmail.com",
+      subject: "New Booking Received",
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h2>📌 New Booking Details</h2>
+
+          <p><strong>Name:</strong> ${payload.name}</p>
+          <p><strong>Email:</strong> ${payload.email}</p>
+          <p><strong>Phone:</strong> ${payload.phone}</p>
+          <p><strong>Service:</strong> ${payload.service}</p>
+          <p>
+            <strong>Date:</strong> ${formattedDate}
+            &nbsp; | &nbsp;
+            <strong>Time:</strong> ${formattedTime}
+          </p>
+          <p><strong>Message:</strong> ${payload.message || "N/A"}</p>
+        </div>
+      `,
+    });
+
+    // User Confirmation Email
+    if (payload.email) {
+      await sendEmail({
+        to: payload.email,
+        subject: "Booking Confirmation - Skills-Lab Consultancy",
+        html: `
+          <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h2 style="color:#2563eb;">Booking Confirmation</h2>
+
+            <p>Dear ${payload.name},</p>
+
+            <p>
+              Thank you for choosing <strong>Skills-Lab Consultancy</strong>.
+              Your booking request has been received successfully.
+            </p>
+
+            <div style="background:#f8fafc;padding:15px;border-radius:8px;margin:15px 0;">
+              <p><strong>Service:</strong> ${payload.service}</p>
+              <p><strong>Date:</strong> ${formattedDate}</p>
+              <p><strong>Time:</strong> ${formattedTime}</p>
+            </div>
+
+            <p>
+              Our team will review your request and contact you shortly.
+            </p>
+
+            <br/>
+
+            <p>Best Regards,</p>
+            <p><strong>Skills-Lab Consultancy</strong></p>
+          </div>
+        `,
+      });
     }
-    const booking = await Booking.create(bookingData);
+  } catch (error) {
+    console.error("Error sending booking emails:", error);
+  }
 
-    try {
-
-        await sendEmail({
-            to: 'pronobroy3601@gmail.com',
-            subject: 'New Booking Received',
-            html: `
-                <h3>New Booking Details:</h3>
-                <p><strong>Name:</strong> ${payload.name}</p>
-                <p><strong>Email:</strong> ${payload.email}</p>
-                <p><strong>Phone:</strong> ${payload.phone}</p>
-                <p><strong>Service:</strong> ${payload.service}</p>
-                <p><strong>Time:</strong> ${payload.time}</p>
-                <p><strong>Message:</strong> ${payload.message || 'N/A'}</p>
-            `
-        });
-
-
-        if (payload.email) {
-            await sendEmail({
-                to: payload.email,
-                subject: 'Booking Confirmation - Skills-Lab Consultancy',
-                html: `
-                    <p>Dear ${payload.name},</p>
-                    <p>Thank you for your booking. We have successfully received your request for <strong>${payload.service}</strong> at <strong>${payload.time}</strong>.</p>
-                    <p>We will review it and get back to you shortly.</p>
-                    <br/>
-                    <p>Best Regards,</p>
-                    <p>Skills-Lab Consultancy</p>
-                `
-            });
-        }
-    } catch (error) {
-        console.error('Error sending booking emails:', error);
-    }
-
-    return booking;
-}
+  return booking;
+};
 
 
 const createBooking2 =async(payload:Partial<IBooking2>)=>{
       try {
+    // Admin Email
+    await sendEmail({
+      to: "pronobroy3601@gmail.com",
+      subject: "New Consultation Request",
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h2>🌍 New Consultation Request</h2>
 
-        await sendEmail({
-            to: 'pronobroy3601@gmail.com',
-            subject: 'New Booking Received',
-            html: `
-                <h3>New Booking Details:</h3>
-                <p><strong>Name:</strong> ${payload.name}</p>
-                <p><strong>Email:</strong> ${payload.email}</p>
-                <p><strong>Phone:</strong> ${payload.phone}</p>
-                <p><strong>Interested Country:</strong> ${payload.interestedCountry}</p>
-                <p><strong>Message:</strong> ${payload.message || 'N/A'}</p>
-            `
-        });
+          <p><strong>Name:</strong> ${payload.name}</p>
+          <p><strong>Email:</strong> ${payload.email}</p>
+          <p><strong>Phone:</strong> ${payload.phone}</p>
+          <p><strong>Interested Country:</strong> ${payload.interestedCountry}</p>
+          <p><strong>Message:</strong> ${payload.message || "N/A"}</p>
+        </div>
+      `,
+    });
 
+    // User Confirmation Email
+    if (payload.email) {
+      await sendEmail({
+        to: payload.email,
+        subject: "Consultation Request Received - Skills-Lab Consultancy",
+        html: `
+          <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h2 style="color:#2563eb;">
+              Consultation Request Confirmation
+            </h2>
 
-        if (payload.email) {
-            await sendEmail({
-                to: payload.email,
-                subject: 'Booking Confirmation - Skills-Lab Consultancy',
-                html: `
-                    <p>Dear ${payload.name},</p>
-                    <p>Thank you for your booking. We have successfully received your request for <strong>${payload.service}</strong> at <strong>${payload.time}</strong>.</p>
-                    <p>We will review it and get back to you shortly.</p>
-                    <br/>
-                    <p>Best Regards,</p>
-                    <p>Skills-Lab Consultancy</p>
-                `
-            });
-        }
-    } catch (error) {
-        console.error('Error sending booking emails:', error);
+            <p>Dear ${payload.name},</p>
+
+            <p>
+              Thank you for contacting
+              <strong>Skills-Lab Consultancy</strong>.
+            </p>
+
+            <div style="background:#f8fafc;padding:15px;border-radius:8px;margin:15px 0;">
+              <p>
+                <strong>Interested Country:</strong>
+                ${payload.interestedCountry}
+              </p>
+            </div>
+
+            <p>
+              Our team will review your request and get back to you shortly.
+            </p>
+
+            <br/>
+
+            <p>Best Regards,</p>
+            <p><strong>Skills-Lab Consultancy</strong></p>
+          </div>
+        `,
+      });
     }
-
+  } catch (error) {
+    console.error("Error sending consultation emails:", error);
+  }
 };
 const getAllBookings =async()=>{
     const bookings = await Booking.find({});

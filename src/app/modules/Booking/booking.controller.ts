@@ -5,6 +5,7 @@ import { BookingService } from "./booking.service";
 import { JwtPayload } from "jsonwebtoken";
 
 const createBooking = catchAsync(async (req:Request, res:Response) => {
+    console.log("BookingController -> createBooking -> req.body", req.body);
     const decodeToken = req.user as JwtPayload | undefined;
     const userId = decodeToken?.userId || decodeToken?._id || "";
 

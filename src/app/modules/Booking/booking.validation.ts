@@ -11,6 +11,10 @@ export const createBookingValidationRules = z.object({
     .email({ message: "Invalid email address format" })
     .min(5, { message: "Email must be at least 5 characters long" })
     .max(100, { message: "Email cannot exceed 100 characters" }),
+    phone: z
+    .string({ error: "Phone must be string" })
+    .min(10, { message: "Phone number is too short" })
+    .max(15, { message: "Phone number is too long" }),
 
   service: z
     .string({ error: "Service must be string" })

@@ -1,0 +1,64 @@
+import { z } from "zod";
+export declare const createCountryValidationRules: z.ZodObject<{
+    name: z.ZodString;
+    image: z.ZodOptional<z.ZodString>;
+    institutes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+    fees: z.ZodOptional<z.ZodString>;
+    deadline: z.ZodOptional<z.ZodString>;
+    subtitle: z.ZodOptional<z.ZodString>;
+    region: z.ZodOptional<z.ZodString>;
+    description: z.ZodOptional<z.ZodString>;
+    features: z.ZodOptional<z.ZodArray<z.ZodObject<{
+        title: z.ZodString;
+        subtitle: z.ZodString;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+export declare const updateCountryValidationRules: z.ZodObject<{
+    body: z.ZodObject<{
+        name: z.ZodOptional<z.ZodString>;
+        image: z.ZodOptional<z.ZodString>;
+        institutes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+        fees: z.ZodOptional<z.ZodString>;
+        deadline: z.ZodOptional<z.ZodString>;
+        subtitle: z.ZodOptional<z.ZodString>;
+        region: z.ZodOptional<z.ZodString>;
+        description: z.ZodOptional<z.ZodString>;
+        features: z.ZodOptional<z.ZodArray<z.ZodObject<{
+            title: z.ZodString;
+            subtitle: z.ZodString;
+        }, z.core.$strip>>>;
+    }, z.core.$strip>;
+}, z.core.$strip>;
+export declare const CountryValidationRules: {
+    createCountryValidationRules: z.ZodObject<{
+        name: z.ZodString;
+        image: z.ZodOptional<z.ZodString>;
+        institutes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+        fees: z.ZodOptional<z.ZodString>;
+        deadline: z.ZodOptional<z.ZodString>;
+        subtitle: z.ZodOptional<z.ZodString>;
+        region: z.ZodOptional<z.ZodString>;
+        description: z.ZodOptional<z.ZodString>;
+        features: z.ZodOptional<z.ZodArray<z.ZodObject<{
+            title: z.ZodString;
+            subtitle: z.ZodString;
+        }, z.core.$strip>>>;
+    }, z.core.$strip>;
+    updateCountryValidationRules: z.ZodObject<{
+        body: z.ZodObject<{
+            name: z.ZodOptional<z.ZodString>;
+            image: z.ZodOptional<z.ZodString>;
+            institutes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+            fees: z.ZodOptional<z.ZodString>;
+            deadline: z.ZodOptional<z.ZodString>;
+            subtitle: z.ZodOptional<z.ZodString>;
+            region: z.ZodOptional<z.ZodString>;
+            description: z.ZodOptional<z.ZodString>;
+            features: z.ZodOptional<z.ZodArray<z.ZodObject<{
+                title: z.ZodString;
+                subtitle: z.ZodString;
+            }, z.core.$strip>>>;
+        }, z.core.$strip>;
+    }, z.core.$strip>;
+};
+//# sourceMappingURL=country.validation.d.ts.map

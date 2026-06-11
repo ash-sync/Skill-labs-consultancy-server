@@ -19,6 +19,9 @@ const startServer = async () => {
             console.log("Server is listening to the port 5000")
         });
 
+        // Seed admin and demo data after DB connection is successful
+        await seedAdmin();
+        await seedDemoData();
 
     } catch (error) {
         console.log(error)
@@ -26,8 +29,6 @@ const startServer = async () => {
 }
 
 startServer()
-seedAdmin()
-seedDemoData()
 
 
 

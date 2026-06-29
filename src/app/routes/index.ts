@@ -9,6 +9,7 @@ import { TestimonialRoutes } from "../modules/Testimonial/testimonial.route";
 import { FaqRoutes } from "../modules/Faq/faq.route";
 import { DestinationRoutes } from "../modules/Destination/destination.route";
 import { ExpertRoutes } from "../modules/Expert/expert.route";
+import { ImageRoutes } from "../modules/Gallery/image.route";
 
 export const router = Router();
 const moduleRoutes =[
@@ -51,6 +52,10 @@ const moduleRoutes =[
     {
         path: "/expert",
         route: ExpertRoutes,
+    },
+    {
+        path: "/gallery",
+        route: ImageRoutes,
     }
 
 ]

@@ -1,90 +1,63 @@
 import { Server } from "http";
-import mongoose from "mongoose";
 import app from "./app";
 import { envVars } from "./app/config/env";
-import bcrypt from "bcryptjs";
-import { User } from "./app/modules/User/user.model";
-import seedAdmin from "./app/utils/seedAdmin";
-import { seedDemoData } from "./app/utils/seedDemoData";
+import { connectDB } from "./app/config/db";
 
 let server: Server;
 
 const startServer = async () => {
     try {
-        await mongoose.connect(envVars.DB_URL);
-
-        console.log("Connected to DB")
+        await connectDB();
 
         server = app.listen(envVars.PORT, () => {
-            console.log("Server is listening to the port 5000")
+            console.log(`Server is listening on port ${envVars.PORT}`);
         });
 
-        // Seed admin and demo data after DB connection is successful
-        await seedAdmin();
-        await seedDemoData();
-
     } catch (error) {
-        console.log(error)
+        console.log("Failed to start server:", error);
     }
+};
+
+// Start local server if NOT running on Vercel
+if (!process.env.VERCEL) {
+    startServer();
 }
 
-startServer()
-
-
-
-
 process.on("unhandledRejection", (err) => {
-    console.log("Unhandled Rejection detected...Server shutting down... ", err)
-    if(server) {
+    console.log("Unhandled Rejection detected... Server shutting down... ", err);
+    if (server) {
         server.close(() => {
-            process.exit(1)
-        })
+            process.exit(1);
+        });
     }
-    process.exit(1)
-})
-
+});
 
 process.on("uncaughtException", (err) => {
-  console.log("Uncaught Exception detected... Server shutting down...", err);
-  if (server) {
-    server.close(() => {
-      process.exit(1);
-    });
-  }
-
-  process.exit(1);
+    console.log("Uncaught Exception detected... Server shutting down...", err);
+    if (server) {
+        server.close(() => {
+            process.exit(1);
+        });
+    }
 });
-
 
 process.on("SIGTERM", () => {
-  console.log("SIGTERM signal recieved... Server shutting down...");
-  if (server) {
-    server.close(() => {
-      process.exit(1);
-    });
-  }
-
-  process.exit(1);
+    console.log("SIGTERM signal received... Server shutting down...");
+    if (server) {
+        server.close(() => {
+            process.exit(1);
+        });
+    }
 });
-
 
 process.on("SIGINT", () => {
-  console.log("SIGINT signal recieved... Server shutting down...");
-  if (server) {
-    server.close(() => {
-      process.exit(1);
-    });
-  }
-
-  process.exit(1);
+    console.log("SIGINT signal received... Server shutting down...");
+    if (server) {
+        server.close(() => {
+            process.exit(1);
+        });
+    }
 });
 
-
-
-
-
-
-
-
-
-
+module.exports = app;
+export default app;

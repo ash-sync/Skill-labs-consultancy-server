@@ -2,16 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setAuthCookie = void 0;
 const setAuthCookie = (res, tokenInfo) => {
+    const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
     if (tokenInfo.accessToken) {
         res.cookie("accessToken", tokenInfo.accessToken, {
             httpOnly: true,
-            secure: false
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
         });
     }
     if (tokenInfo.refreshToken) {
         res.cookie("refreshToken", tokenInfo.refreshToken, {
             httpOnly: true,
-            secure: false,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
         });
     }
 };

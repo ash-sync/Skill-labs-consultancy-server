@@ -19,10 +19,13 @@ const jwt_1 = require("../utils/jwt");
 const AppError_1 = require("../errorHelpers/AppError");
 const user_model_1 = require("../modules/User/user.model");
 const checkAuth = (...authRoles) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const accessToken = req.headers.authorization;
+        const authHeader = req.headers.authorization;
+        const cookieToken = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken;
+        const accessToken = authHeader || cookieToken;
         if (!accessToken) {
-            throw new AppError_1.AppError(http_status_codes_1.default.FORBIDDEN, "No Token Received");
+            throw new AppError_1.AppError(http_status_codes_1.default.UNAUTHORIZED, "No Token Received");
         }
         const token = accessToken.startsWith("Bearer ")
             ? accessToken.split(" ")[1]
@@ -39,6 +42,9 @@ const checkAuth = (...authRoles) => (req, res, next) => __awaiter(void 0, void 0
         });
         if (!isUserExist) {
             throw new AppError_1.AppError(http_status_codes_1.default.NOT_FOUND, "User does not exist");
+        }
+        if (authRoles.length > 0 && !authRoles.includes(verifiedToken.role || isUserExist.role)) {
+            throw new AppError_1.AppError(http_status_codes_1.default.FORBIDDEN, "You are not authorized to perform this action");
         }
         req.user = verifiedToken;
         next();

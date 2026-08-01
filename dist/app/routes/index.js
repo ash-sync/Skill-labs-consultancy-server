@@ -12,6 +12,7 @@ const testimonial_route_1 = require("../modules/Testimonial/testimonial.route");
 const faq_route_1 = require("../modules/Faq/faq.route");
 const destination_route_1 = require("../modules/Destination/destination.route");
 const expert_route_1 = require("../modules/Expert/expert.route");
+const image_route_1 = require("../modules/Gallery/image.route");
 exports.router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -53,6 +54,10 @@ const moduleRoutes = [
     {
         path: "/expert",
         route: expert_route_1.ExpertRoutes,
+    },
+    {
+        path: "/gallery",
+        route: image_route_1.ImageRoutes,
     }
 ];
 moduleRoutes.forEach((route) => {

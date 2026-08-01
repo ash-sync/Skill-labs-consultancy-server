@@ -12,11 +12,13 @@ export const checkAuth =
   (...authRoles: string[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const accessToken = req.headers.authorization;
+      const authHeader = req.headers.authorization;
+      const cookieToken = req.cookies?.accessToken;
 
+      const accessToken = authHeader || cookieToken;
 
       if (!accessToken) {
-        throw new AppError(httpStatus.FORBIDDEN, "No Token Received");
+        throw new AppError(httpStatus.UNAUTHORIZED, "No Token Received");
       }
 
 
@@ -46,6 +48,10 @@ export const checkAuth =
 
       if (!isUserExist) {
         throw new AppError(httpStatus.NOT_FOUND, "User does not exist");
+      }
+
+      if (authRoles.length > 0 && !authRoles.includes(verifiedToken.role || isUserExist.role)) {
+        throw new AppError(httpStatus.FORBIDDEN, "You are not authorized to perform this action");
       }
 
      

@@ -12,36 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
 const env_1 = require("./app/config/env");
-const seedAdmin_1 = __importDefault(require("./app/utils/seedAdmin"));
-const seedDemoData_1 = require("./app/utils/seedDemoData");
+const db_1 = require("./app/config/db");
 let server;
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(env_1.envVars.DB_URL);
-        console.log("Connected to DB");
+        yield (0, db_1.connectDB)();
         server = app_1.default.listen(env_1.envVars.PORT, () => {
-            console.log("Server is listening to the port 5000");
+            console.log(`Server is listening on port ${env_1.envVars.PORT}`);
         });
-        // Seed admin and demo data after DB connection is successful
-        yield (0, seedAdmin_1.default)();
-        yield (0, seedDemoData_1.seedDemoData)();
     }
     catch (error) {
-        console.log(error);
+        console.log("Failed to start server:", error);
     }
 });
-startServer();
+// Start local server if NOT running on Vercel
+if (!process.env.VERCEL) {
+    startServer();
+}
 process.on("unhandledRejection", (err) => {
-    console.log("Unhandled Rejection detected...Server shutting down... ", err);
+    console.log("Unhandled Rejection detected... Server shutting down... ", err);
     if (server) {
         server.close(() => {
             process.exit(1);
         });
     }
-    process.exit(1);
 });
 process.on("uncaughtException", (err) => {
     console.log("Uncaught Exception detected... Server shutting down...", err);
@@ -50,24 +46,23 @@ process.on("uncaughtException", (err) => {
             process.exit(1);
         });
     }
-    process.exit(1);
 });
 process.on("SIGTERM", () => {
-    console.log("SIGTERM signal recieved... Server shutting down...");
+    console.log("SIGTERM signal received... Server shutting down...");
     if (server) {
         server.close(() => {
             process.exit(1);
         });
     }
-    process.exit(1);
 });
 process.on("SIGINT", () => {
-    console.log("SIGINT signal recieved... Server shutting down...");
+    console.log("SIGINT signal received... Server shutting down...");
     if (server) {
         server.close(() => {
             process.exit(1);
         });
     }
-    process.exit(1);
 });
+module.exports = app_1.default;
+exports.default = app_1.default;
 //# sourceMappingURL=server.js.map

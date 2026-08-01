@@ -6,17 +6,21 @@ export interface AuthTokens {
 }
 
 export const setAuthCookie = (res: Response, tokenInfo: AuthTokens) => {
+    const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+
     if (tokenInfo.accessToken) {
         res.cookie("accessToken", tokenInfo.accessToken, {
             httpOnly: true,
-            secure: false
-        })
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
+        });
     }
 
     if (tokenInfo.refreshToken) {
         res.cookie("refreshToken", tokenInfo.refreshToken, {
             httpOnly: true,
-            secure: false,
-        })
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
+        });
     }
-}
+};
